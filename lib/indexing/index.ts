@@ -17,7 +17,7 @@ export class ChromaIndexer implements Indexer {
         );
 
         const embeddings =
-            await this.embeddings.embedMany(texts);
+  await this.embeddings.embedDocuments(texts);
 
         const ids = documents.map(
             (_, index) => crypto.randomUUID()

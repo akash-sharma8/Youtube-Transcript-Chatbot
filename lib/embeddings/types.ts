@@ -1,5 +1,7 @@
 export interface EmbeddingProvider {
-  embed(text: string): Promise<number[]>;
+  embedQuery(text: string): Promise<number[]>;
 
-  embedMany(texts: string[]): Promise<number[][]>;
+  embedDocuments(
+    texts: string[]
+  ): Promise<number[][]>;
 }
