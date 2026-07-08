@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { chatModel } from "@/lib/ai/chat";
+import { chatModel } from "@/lib/llm/chat";
 
 async function main() {
   const response = await chatModel.invoke("Say hello in one sentence.");
