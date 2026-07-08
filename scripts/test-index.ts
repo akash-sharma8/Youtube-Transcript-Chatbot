@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { fetchTranscript } from "@/lib/transcript/loader";
+import { fetchTranscript } from "@/lib/transcript/fetch";
 import { mergeTranscriptSegments } from "@/lib/transcript/merger";
 import { createDocuments } from "@/lib/transcript/document";
 import { splitDocuments } from "@/lib/transcript/splitter";
@@ -8,6 +8,7 @@ import { ChromaIndexer } from "@/lib/indexing";
 
 async function main() {
   const url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+  const videoId = "test-video";
 
   console.log("Fetching transcript...");
   const transcript = await fetchTranscript(url);
@@ -24,7 +25,7 @@ async function main() {
   console.log("Indexing into Chroma...");
   const indexer = new ChromaIndexer();
 
-  const result = await indexer.index(chunks);
+  const result = await indexer.index(videoId,chunks);
 
   console.log(result);
 }

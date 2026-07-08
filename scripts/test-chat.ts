@@ -1,12 +1,26 @@
 import "dotenv/config";
-import { YoutubeTranscript } from "youtube-transcript";
 
-async function main(): Promise<void> {
-  const transcript = await YoutubeTranscript.fetchTranscript(
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+import { ChatService } from "@/lib/chat/chat";
+import { getVideoId } from "@/lib/youtube/video-id";
+
+async function main() {
+  const chat = new ChatService();
+
+  const videoUrl =
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+  const videoId = getVideoId(videoUrl)!;
+
+  const response = await chat.ask(
+    "What does the singer promise?",
+    videoId
   );
 
-  console.dir(transcript, { depth: null });
+  console.log("\nAnswer:\n");
+  console.log(response.answer);
+
+  console.log("\nSources:\n");
+  console.log(response.sources);
 }
 
-main().catch(console.error);
+main();

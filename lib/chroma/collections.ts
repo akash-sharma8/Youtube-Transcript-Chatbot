@@ -1,10 +1,11 @@
 import { chroma } from "@/lib/chroma/client";
 
-export const COLLECTION_NAME =
-  "youtube-transcripts";
 
-export async function getCollection() {
+export async function getCollection(
+  videoId: string
+) {
   return chroma.getOrCreateCollection({
-    name: COLLECTION_NAME,
+    name: `youtube-${videoId}`,
+    embeddingFunction: null,
   });
 }

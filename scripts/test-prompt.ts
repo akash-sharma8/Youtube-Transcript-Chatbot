@@ -1,4 +1,4 @@
-import { ragPrompt } from "@/lib/prompts/rag";
+import { ragPrompt } from "@/lib/prompt/rag";
 
 async function main() {
   const prompt = await ragPrompt.invoke({

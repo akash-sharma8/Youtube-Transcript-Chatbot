@@ -6,5 +6,8 @@ export interface IndexingResult {
 }
 
 export interface Indexer {
-  index(documents: Document[]): Promise<IndexingResult>;
+  index(
+    videoId: string,
+    documents: Document[]
+  ): Promise<IndexingResult>;
 }

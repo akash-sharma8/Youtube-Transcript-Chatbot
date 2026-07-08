@@ -1,44 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import TranscriptForm from "@/components/TranscriptForm";
-import TranscriptViewer from "@/components/TranscriptViewer";
-import { TranscriptSegment } from "@/types/transcript";
 
-export default function HomePage(){
-  const [loading, setLoading] = useState(false);
-  const [transcript, setTranscript] = useState<TranscriptSegment[]>([]);
+import Chat from "@/components/chat/Chat";
+import VideoInput from "@/components/index/VideoInput";
 
-  async function loadTranscript(url: string) {
-    setLoading(true);
+export default function Home() {
+  const [ready, setReady] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
 
-    try {
-      const response = await fetch("/api/transcript",{
-        method: "POST",
-        body: JSON.stringify({ 
-          url,
-        }),
-      })
-      const data = await response.json();
-      setTranscript(data.transcript);
-    } catch (error) {
-      console.error("Error loading transcript:", error);
-    } finally {
-      setLoading(false);
-    }
-  }
   return (
-    <main className="mx-auto max-w-4xl space-y-6 p-10">
-      <h1 className="text-4xl font-bold">
-        YouTube Transcript Chatbot
-      </h1>
+    <main className="relative flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
 
-      <TranscriptForm
-        loading={loading}
-        onSubmit={loadTranscript}
-      />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)]" />
 
-      <TranscriptViewer transcript={transcript} />
+      {!ready ? (
+        <div className="mx-auto w-full max-w-md px-4">
+
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold">
+              TubeMind AI
+            </h1>
+
+            <p className="mt-2 text-slate-500">
+              Paste a YouTube URL to chat with its transcript.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border bg-white p-6 shadow dark:border-slate-800 dark:bg-slate-900">
+            <VideoInput
+              onIndexed={(url) => {
+                setVideoUrl(url);
+                setReady(true);
+              }}
+            />
+          </div>
+
+        </div>
+      ) : (
+        <Chat videoUrl={videoUrl} />
+      )}
     </main>
   );
 }

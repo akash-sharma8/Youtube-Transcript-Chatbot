@@ -9,24 +9,32 @@ import {
 } from "./types";
 
 export class ChromaRetriever implements Retriever {
-  private readonly embeddings = new HuggingFaceEmbedding();
+  private readonly embeddings =
+    new HuggingFaceEmbedding();
 
   async retrieve({
+    videoId,
     query,
     topK = 4,
   }: RetrieveOptions): Promise<Document[]> {
-    const collection = await getCollection();
+
+    const collection =
+      await getCollection(videoId);
 
     const queryEmbedding =
       await this.embeddings.embedQuery(query);
 
-      console.log("Embedding length:", queryEmbedding.length);
-console.log(queryEmbedding.slice(0, 5));
+    const results =
+      await collection.query({
+        queryEmbeddings: [queryEmbedding],
+        nResults: topK,
+      });
 
-    const results = await collection.query({
-      queryEmbeddings: [queryEmbedding],
-      nResults: topK,
-    });
+//       console.log("========== RETRIEVAL ==========");
+// console.log(results.documents);
+// console.log(results.metadatas);
+// console.log(results.distances);
+// console.log("===============================");
 
     const documents =
       results.documents?.[0] ?? [];
@@ -34,23 +42,19 @@ console.log(queryEmbedding.slice(0, 5));
     const metadatas =
       results.metadatas?.[0] ?? [];
 
-    const retrievedDocuments: Document[] = [];
+    const retrieved: Document[] = [];
 
-for (let i = 0; i < documents.length; i++) {
-  const pageContent = documents[i];
+    for (let i = 0; i < documents.length; i++) {
+      if (!documents[i]) continue;
 
-  if (pageContent === null) {
-    continue;
-  }
+      retrieved.push(
+        new Document({
+          pageContent: documents[i]!,
+          metadata: metadatas[i] ?? {},
+        })
+      );
+    }
 
-  retrievedDocuments.push(
-    new Document({
-      pageContent,
-      metadata: metadatas[i] ?? {},
-    })
-  );
-}
-
-return retrievedDocuments;
+    return retrieved;
   }
 }
