@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { fetchTranscript } from "../lib/transcript/loader";
 import { buildTranscriptDocuments } from "../lib/documents/buildDocuments";
-import { splitDocuments } from "@/lib/chunking/splitter";
+import { splitDocuments } from "@/lib/transcript/splitter";
 import { mergeTranscriptSegments } from "@/lib/transcript/merger";
 async function main(): Promise<void> {
   const videoUrl =
