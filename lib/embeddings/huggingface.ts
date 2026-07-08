@@ -1,17 +1,8 @@
-import { InferenceClient } from "@huggingface/inference";
+import { HfInference } from "@huggingface/inference";
 import { env } from "@/lib/config/env";
+import { EmbeddingProvider } from "./types";
 
-const client = new InferenceClient(env.HF_TOKEN);
+export class HuggingFaceEmbedding
+  implements EmbeddingProvider {
 
-const MODEL = "sentence-transformers/all-MiniLM-L6-v2";
-
-export async function generateEmbedding(
-  text: string
-): Promise<number[]> {
-  const embedding = await client.featureExtraction({
-    model: MODEL,
-    inputs: text,
-  });
-
-  return Array.from(embedding as Iterable<number>);
 }
