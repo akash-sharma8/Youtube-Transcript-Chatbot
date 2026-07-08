@@ -1,35 +1,17 @@
 import { InferenceClient } from "@huggingface/inference";
-import { Embeddings } from "@langchain/core/embeddings";
+import { env } from "@/lib/config/env";
 
-const token = process.env.HF_TOKEN;
+const client = new InferenceClient(env.HF_TOKEN);
 
-if (!token) {
-    throw new Error("HF_TOKEN environment variable is not set.");
+const MODEL = "sentence-transformers/all-MiniLM-L6-v2";
+
+export async function generateEmbedding(
+  text: string
+): Promise<number[]> {
+  const embedding = await client.featureExtraction({
+    model: MODEL,
+    inputs: text,
+  });
+
+  return Array.from(embedding as Iterable<number>);
 }
-
-const client = new InferenceClient(token);
-
-const MODEL = "BAAI/bge-large-en-v1.5";
-
-
-export class HuggingFaceEmbeddings extends Embeddings {
-    constructor() {
-        super({});
-    }
-
-    async embedQuery(text: string): Promise<number[]> {
-        const embedding = await client.featureExtraction({
-            model: MODEL,
-            inputs: text,
-        });
-        return embedding as number[]
-
-    }
-    async embedDocuments(texts: string[]): Promise<number[][]> {
-        return Promise.all(
-            texts.map((text) => this.embedQuery(text))
-        )
-    }
-}
-
-export const embeddings = new HuggingFaceEmbeddings();
