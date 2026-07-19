@@ -28,9 +28,9 @@ export async function POST(
 
     const videoId = getVideoId(videoUrl);
 
-if (!videoId) {
-  throw new Error("Invalid YouTube URL");
-}
+    if (!videoId) {
+      throw new Error("Invalid YouTube URL");
+    }
 
     // console.log(
     //   "Indexing Video:",
@@ -73,17 +73,29 @@ if (!videoId) {
   } catch (error) {
     console.error(error);
 
+    const message =
+      error instanceof Error ? error.message : "Unknown Error";
+
+    if (
+      message.includes("Transcript is disabled") ||
+      message.includes("No transcript")
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "This YouTube video doesn't have an accessible transcript. Please choose another video.",
+        },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       {
         success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : "Unknown Error",
+        error: message,
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
