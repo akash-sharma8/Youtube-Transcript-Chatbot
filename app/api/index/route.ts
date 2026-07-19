@@ -13,7 +13,12 @@ export async function POST(
   req: NextRequest
 ) {
   try {
-    const { videoUrl } = await req.json();
+    const body = await req.json();
+
+    console.log(body);
+
+    const { videoUrl } = body;
+    console.log("Received videoUrl:", videoUrl);
 
     if (!videoUrl) {
       return NextResponse.json(
@@ -27,6 +32,7 @@ export async function POST(
     }
 
     const videoId = getVideoId(videoUrl);
+    console.log("Extracted videoId:", videoId);
 
     if (!videoId) {
       throw new Error("Invalid YouTube URL");
