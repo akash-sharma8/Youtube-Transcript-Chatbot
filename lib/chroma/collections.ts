@@ -1,10 +1,10 @@
-import { chroma } from "@/lib/chroma/client";
+import { client } from "@/lib/chroma/client";
 
 
 export async function getCollection(
   videoId: string
 ) {
-  return chroma.getOrCreateCollection({
+  return client.getOrCreateCollection({
     name: `youtube-${videoId}`,
     embeddingFunction: null,
   });

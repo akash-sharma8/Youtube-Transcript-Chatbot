@@ -6,14 +6,14 @@ An AI-powered YouTube Transcript Chatbot built with **Next.js**, **LangChain**, 
 
 ## 🚀 Features
 
-- 📺 Index any YouTube video transcript
-- 💬 Chat with the video using AI
-- 🔍 Semantic search using vector embeddings
-- ⚡ Fast retrieval with ChromaDB
-- 🧠 Groq LLM for response generation
-- ⏱ Timestamp references for answers
-- 🎨 Modern responsive UI with Tailwind CSS
-- 📦 One Chroma collection per video (No mixed results)
+-  Index any YouTube video transcript
+-  Chat with the video using AI
+-  Semantic search using vector embeddings
+-  Fast retrieval with ChromaDB
+-  Groq LLM for response generation
+-  Timestamp references for answers
+-  Modern responsive UI with Tailwind CSS
+-  One Chroma collection per video (No mixed results)
 
 ---
 
