@@ -8,16 +8,16 @@ export async function fetchTranscript(
     
     const transcript =
       await YoutubeTranscript.fetchTranscript(videoUrl);
-  console.log("Transcript length:", transcript.length);
+  console.log("Transcript fetched:", transcript.length);
     return transcript.map((segment) => ({
       text: segment.text,
       start: segment.offset / 1000,
       duration: segment.duration / 1000,
       language: segment.lang || "",
     }));
-  } catch (err) {
-    throw new Error(
-      "Transcript is not available for this video. Please choose another video with public captions."
-    );
+  } catch (error) {
+    console.error("FULL TRANSCRIPT ERROR:", error);
+
+    throw error;
   }
 }

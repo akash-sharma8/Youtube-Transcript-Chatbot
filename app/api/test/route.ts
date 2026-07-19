@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const transcript =
       await YoutubeTranscript.fetchTranscript(
-        "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          "https://www.youtube.com/watch?v=mbSYZzBjs4U"
       );
 
     return NextResponse.json({

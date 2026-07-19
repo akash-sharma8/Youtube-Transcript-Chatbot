@@ -35,7 +35,9 @@ export default function VideoInput({
       }
 
       const data = await response.json();
-
+      if (!response.ok) {
+  throw new Error(data.error || "Failed to index");
+}
       console.log(data);
 
       // Save the indexed video URL in the parent
