@@ -1,6 +1,6 @@
 import { Document } from "@langchain/core/documents";
 
-import { HuggingFaceEmbedding } from "@/lib/embeddings/huggingface";
+import { VoxellEmbedding } from "@/lib/embeddings/voxell";
 import { getCollection } from "@/lib/chroma/collections";
 
 import {
@@ -10,7 +10,7 @@ import {
 
 export class ChromaRetriever implements Retriever {
   private readonly embeddings =
-    new HuggingFaceEmbedding();
+    new VoxellEmbedding();
 
   async retrieve({
     videoId,

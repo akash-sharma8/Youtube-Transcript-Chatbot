@@ -1,6 +1,6 @@
 # 🎥 TubeMind AI - YouTube Transcript Chatbot
 
-An AI-powered YouTube Transcript Chatbot built with **Next.js**, **LangChain**, **ChromaDB**, **Groq LLM**, and **Hugging Face Embeddings**. Paste a YouTube video URL, index its transcript, and ask natural language questions about the video.
+An AI-powered YouTube Transcript Chatbot built with **Next.js**, **LangChain**, **ChromaDB Cloud**, **Groq**, and **Voxell Forge embeddings**. Paste a YouTube video URL, index its transcript, and ask natural language questions about the video.
 
 ---
 
@@ -63,7 +63,7 @@ Explain this topic in simple language.
 ## AI
 
 - Groq
-- HuggingFace Embeddings (BAAI/bge-large-en-v1.5)
+- Voxell Forge Turbo embeddings (1024 dimensions)
 
 ## Vector Database
 
@@ -142,37 +142,25 @@ npm install
 
 # Environment Variables
 
-Create a `.env.local`
+Create a `.env.local` in the project root and fill in the values from the linked services. Never commit API keys.
 
 ```env
-HF_TOKEN=
-
-GROQ_API_KEY=
-
-CHROMA_URL=http://localhost:8000
-
-CHROMA_TENANT=default_tenant
-
-CHROMA_DATABASE=default_database
+VOXELL_API_KEY=your_voxell_forge_api_key
+GROQ_API_KEY=your_groq_api_key
+SEARCHAPI_KEY=your_searchapi_key
+CHROMA_HOST=your_chroma_host
+CHROMA_API_KEY=your_chroma_api_key
+CHROMA_TENANT=your_chroma_tenant
+CHROMA_DATABASE=your_chroma_database
 ```
 
----
+The app uses [Voxell Forge](https://voxell.ai/docs/#forge) Turbo to create both transcript and query embeddings, [SearchAPI](https://www.searchapi.io/) to fetch YouTube transcripts, [Groq](https://console.groq.com/) for chat completions, and [Chroma Cloud](https://www.trychroma.com/) to store vectors.
 
-# Start ChromaDB
+### Vercel
 
-Docker
+Add the same variables in **Project Settings → Environment Variables** for the Production environment, then redeploy. Keep the keys private; do not put them in client-side code or commit them to the repository.
 
-```bash
-docker run -d \
--p 8000:8000 \
-chromadb/chroma
-```
-
-or
-
-```bash
-docker compose up -d
-```
+After switching from another embedding provider, index each video again. The app stores Voxell vectors in separate Chroma collections, and existing vectors from a different model cannot be used for Voxell similarity search.
 
 ---
 
@@ -332,7 +320,7 @@ Body
         LangChain Text Splitter
                     │
                     ▼
-      HuggingFace Embeddings
+      Voxell Forge Embeddings
                     │
                     ▼
               ChromaDB
