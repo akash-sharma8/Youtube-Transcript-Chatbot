@@ -1,12 +1,5 @@
-export function getVideoId(
-  videoUrl: string
-): string {
-  const id = new URL(videoUrl)
-    .searchParams.get("v");
+import { extractVideoId } from "@/lib/utils/youtube";
 
-  if (!id) {
-    throw new Error("Invalid YouTube URL");
-  }
-
-  return id;
+export function getVideoId(videoUrl: string): string {
+  return extractVideoId(videoUrl);
 }

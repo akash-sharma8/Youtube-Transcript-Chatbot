@@ -30,14 +30,10 @@ export default function VideoInput({
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to index");
-      }
-
       const data = await response.json();
       if (!response.ok) {
-  throw new Error(data.error || "Failed to index");
-}
+        throw new Error(data.error || "Failed to index");
+      }
       console.log(data);
 
       // Save the indexed video URL in the parent
@@ -46,7 +42,11 @@ export default function VideoInput({
       alert("Video indexed successfully!");
     } catch (error) {
       console.error(error);
-      alert("Indexing failed.");
+      alert(
+        error instanceof Error
+          ? `Indexing failed: ${error.message}`
+          : "Indexing failed."
+      );
     } finally {
       setLoading(false);
     }
